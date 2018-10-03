@@ -96,8 +96,8 @@ namespace Kampus.WordSearcher
             await helpClass.ClientHttp.SendRequest(left, "");
             }
 
-           for (int h = 0; h < 6; h++)
-            //for (int h = 0; h < iMap/iMatr*2-1; h++)
+           //for (int h = 0; h < 6; h++)
+            for (int h = 0; h < iMap/iMatr*2-1; h++)
             {
                 Console.WriteLine("идет считывание карты:" + h);
                 if (h % 2 == 0)
