@@ -50,12 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientHttp.cs" />
-    <Compile Include="HelpClass.cs" />
-    <Compile Include="LetterCreater.cs" />
+    <Compile Include="AlphabetSevise.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="HelpClass.cs" />
+    <Compile Include="ListPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WordSearcher.cs" />
-    <Compile Include="MapSearcher.cs" />
+    <Compile Include="WordServise.cs" />
+    <Compile Include="MapServise.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

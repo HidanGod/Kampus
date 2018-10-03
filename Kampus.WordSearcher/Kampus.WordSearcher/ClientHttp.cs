@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace Kampus.WordSearcher
 
         public async Task Start(string url)
         {
-            HelpClass c = new HelpClass();
+         
             //HttpClient client = new HttpClient();
           
             string token = "token b804a143-fa76-43d2-8888-bc5a7f094b57";
@@ -49,10 +50,10 @@ namespace Kampus.WordSearcher
             {
                 new KeyValuePair<string, string>("учёба","учёба")
             });
-           
-            HttpContent cont = new StringContent("[\"кампус\", \"контур\", \"словарь\"]");
-           
-            HttpResponseMessage response = await client.PostAsJsonAsync(Patch, cont);
+          //  string json = JsonConvert.SerializeObject("учёба");
+          //  HttpContent cont = new StringContent("[\"кампус\", \"контур\", \"словарь\"]");
+          //  var httpContent = new StringContent("[\"учёба\", \"учёба\", \"учёба\"]", Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsJsonAsync(Patch, content).ConfigureAwait(false);
            // Console.Write("я живой3");
             string data = "";
 

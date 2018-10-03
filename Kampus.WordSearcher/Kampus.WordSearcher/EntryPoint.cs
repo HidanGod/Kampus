@@ -27,16 +27,19 @@ namespace Kampus.WordSearcher
             // string page2 = "/task/game/start";
             // string page3 = "/task/move/down";
             //  string token = "b804a143-fa76-43d2-8888-bc5a7f094b57";
-           
-            
-            MapSearcher search = new MapSearcher();
+
+            ClientHttp clientHttp = new ClientHttp();
+            clientHttp.Start(url);
+
+
+            MapServise search = new MapServise();
             search.RunAsync();
             
-            List<bool[,]> bb = new List<bool[,]>();
+            //List<bool[,]> bb = new List<bool[,]>();
 
-            string currDir = Environment.CurrentDirectory.ToString()+ "/abc.txt";
+            //string currDir = Environment.CurrentDirectory.ToString()+ "/abc.txt";
 
-            LetterCreater search1 = new LetterCreater();
+            //LetterCreater search1 = new LetterCreater();
             //bb = search1.Сreate(currDir,7,7);
             //WordSearch search2 = new WordSearch();  
             //List<string> Search = new List<string>();
