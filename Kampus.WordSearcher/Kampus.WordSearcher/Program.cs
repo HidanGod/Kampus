@@ -22,13 +22,15 @@ namespace Kampus.WordSearcher
         private static void Main(string[] args)
         {
 
-            // string url = "http://Intern-test.skbkontur.ru:80";
+            string url = "http://Intern-test.skbkontur.ru:80";
             // string page1 = "/task/game/stats";
             // string page2 = "/task/game/start";
             // string page3 = "/task/move/down";
             //  string token = "b804a143-fa76-43d2-8888-bc5a7f094b57";
-            WordSearcher search = new WordSearcher();
-            search.RunAsync().Wait();
+            EntryPoint entryPoint = new EntryPoint();
+            entryPoint.Start(url);
+            SearcherWordInMap search = new SearcherWordInMap();
+            search.RunAsync(entryPoint);
             
             List<bool[,]> bb = new List<bool[,]>();
 

@@ -16,9 +16,20 @@ namespace Kampus.WordSearcher
     class GetMap
     {
 
-        WordSearcher search = new WordSearcher();
-    
+        private HttpClient client;
 
+        public HttpClient Client
+        {
+            get
+            {
+                return client;
+            }
+
+            set
+            {
+                client = value;
+            }
+        }
 
 
     }
