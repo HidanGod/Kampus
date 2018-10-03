@@ -17,7 +17,7 @@ namespace Kampus.WordSearcher
     {
         public List<string> Search(bool[,] map, List<bool[,]> abc,int mapi, int mapj,int matri,int matrj)
         {
-            SearcherWordInMap search2 = new SearcherWordInMap();
+            MapSearcher search2 = new MapSearcher();
            // string currDir = Environment.CurrentDirectory.ToString() + "/map.txt";
           //  map=ReadMap(currDir,100,100);
            //  search2.seematr(map, 100, 100);
