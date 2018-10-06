@@ -46,8 +46,8 @@ namespace Kampus.WordSearcher
             //Console.Write("я живой1");
             //client = await entryPoint.Start(url);
             map =  GetMap(map).Result;
-          //  Console.Write("я живой2");
-            PrintMatrix(map, Map.iMatr, Map.jMatr);
+            //  Console.Write("я живой2");
+            PrintMatrixArray(map);
                 List<bool[,]> abc = new List<bool[,]>();
                 string currDir = Environment.CurrentDirectory.ToString() + "/abc.txt";
                 AlphabetService search1 = new AlphabetService();
@@ -92,7 +92,7 @@ namespace Kampus.WordSearcher
 
                 }
             }
-            PrintMatrix(matr, 7, 7);
+            PrintMatrixArray(matr);
 
             return true;
         }
@@ -184,18 +184,18 @@ namespace Kampus.WordSearcher
 
         }
         //выводит на экран матрицу
-        public async Task PrintMatrix(bool[,] matr, int i, int j)
+        public async Task PrintMatrixArray(bool[,] matr)
         {
-            for (int i1 = 0; i1 < i; i1++)
+            for (int i = 0; i < matr.GetLength(0); i++)
             {
                 Console.WriteLine("");
-                for (int j1 = 0; j1 < j; j1++)
+                for (int j = 0; j < matr.GetLength(1); j++)
                 {
 
-                    if (matr[i1, j1].ToString() == "False")
-                    { 
+                    if (matr[i, j].ToString() == "False")
+                    {
 
-                    Console.Write("0");
+                        Console.Write("0");
                     }
                     else
                     {
@@ -207,7 +207,7 @@ namespace Kampus.WordSearcher
             }
 
         }
-
+      
 
 
         //получает матрицу из строки

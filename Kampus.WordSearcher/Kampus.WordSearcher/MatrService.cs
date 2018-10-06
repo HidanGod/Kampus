@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,8 +46,8 @@ namespace Kampus.WordSearcher
                 }
             }
            // matr.matr = matrStart;
-           /// PrintMatrix(matr);
-            //Console.WriteLine("mmm");
+           // PrintMatrix(matr);
+           // Console.WriteLine("mmm");
             return matr;
         }
         //добавляет строку к матрице вниз 
@@ -131,7 +132,7 @@ namespace Kampus.WordSearcher
         {
             return true;
         }
-            //выводит на экран матрицу
+            //выводит на экран матрицу из листов
         public void PrintMatrix(List<List<bool>> matr)
         {
             Console.WriteLine("");
@@ -145,6 +146,122 @@ namespace Kampus.WordSearcher
                 }
                 Console.WriteLine("");
             }
+
+        }
+        //выводит на экран матрицу из массива
+        public async Task PrintMatrixArray(bool[,] matr)
+        {
+            for (int i = 0; i < matr.GetLength(0); i++)
+            {
+                Console.WriteLine("");
+                for (int j = 0; j < matr.GetLength(1); j++)
+                {
+
+                    if (matr[i, j].ToString() == "False")
+                    {
+
+                        Console.Write("0");
+                    }
+                    else
+                    {
+
+                        Console.Write("x");
+                    }
+                }
+
+            }
+
+        }
+        //получает матрицу из строки массив
+        public bool[,] TakeMatrArray(string text, bool[,] matr)
+        {        
+            int num = 0;
+            for (int i = 0; i < matr.GetLength(0); i++)
+            {
+                for (int j = 0; j < matr.GetLength(1); j++)
+                {
+                    if (text[num] == 49) matr[i, j] = true;
+                    else matr[i, j] = false;
+                    num++;
+                }
+            }
+            return matr;
+        }
+        //заполняет матрицу
+        public bool[,] FillMatrix(bool[,] matr)
+        {
+            for (int i = 0; i < matr.GetLength(0); i++)
+            {
+
+                for (int j = 0; j < matr.GetLength(0); j++)
+                {
+                    matr[i, j] = true;
+                }
+
+            }
+            return matr;
+
+        }
+        //копирует видимую область в шаблон буквы
+        public bool[,] CopyArrayFull(bool[,] letter, bool[,] matr,int k)
+        {
+            int x = 0;
+            int y = 0;
+            if (letter.GetLength(0) < matr.GetLength(0)) x = letter.GetLength(0);
+               else x = matr.GetLength(0);
+            if (letter.GetLength(1) < matr.GetLength(1)) y = letter.GetLength(1);
+            else y = matr.GetLength(1);
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    letter[i+k, j] = matr[i, j];
+                }
+            }
+            return letter;
+        }
+
+        //копирует видимую область в шаблон буквы вниз 
+        public bool[,] AddArrayDown(bool[,] letter, bool[,] matr, int x)
+        {
+
+           
+                for (int j = 0; j < letter.GetLength(1); j++)
+                {
+                    letter[x, j] = matr[matr.GetLength(0)-1, j];
+                }
+           
+            return letter;
+        }
+        //копирует видимую область в шаблон буквы вверх
+        public bool[,] AddArrayUp(bool[,] letter, bool[,] matr, int x)
+        {
+
+
+            for (int j = 0; j < letter.GetLength(1); j++)
+            {
+                letter[x, j] = matr[0, j];
+            }
+
+            return letter;
+        }
+        public void СreateMapFile(string path, List<List<bool>> matr)
+        {
+            string str = "";
+          
+            foreach (List<bool> x in matr)
+            {
+                foreach (bool c in x)
+                {
+                    if(c==true)
+                        str = str + "x";
+                    else
+                        str = str + "0";
+                }
+               File.AppendAllText(path, str + Environment.NewLine);
+               str = "";
+            }
+
 
         }
     }

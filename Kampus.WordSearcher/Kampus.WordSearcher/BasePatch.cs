@@ -17,5 +17,6 @@ namespace Kampus.WordSearcher
         public const string words = "/task/words";
         public const string finish = "/task/game/finish";
         public const string patchAlphabet = @"C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Debug\abc.txt";
+        public const string mapFile = @"C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Debug\mapfile.txt";
     }
 }

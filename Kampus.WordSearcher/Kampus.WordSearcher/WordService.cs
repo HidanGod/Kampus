@@ -17,8 +17,10 @@ namespace Kampus.WordSearcher
     {
 
 
-        public bool SeatchWord(List<List<bool>> matr)
+        public int[] SeatchWord(List<List<bool>> matr)
         {
+            int[] ofset = new int[2];
+            ofset[0] = -1;
             bool[,] array = ConvertListInArray(matr);
             bool[,] arraySearch = new bool[BaseIJ.templateI, BaseIJ.templateJ];
             string Letter = "";
@@ -32,19 +34,21 @@ namespace Kampus.WordSearcher
                     arraySearch = MakeArray(array, i, j, arraySearch.GetLength(0), arraySearch.GetLength(1));
                     Letter = FindComparisonLetter(arraySearch, alphabet);
                     if (Letter != "")
-                    {  Console.WriteLine(i+" j="+j); return true;}
+                    {
+                        //Console.WriteLine(i+" j="+j);
+                        ofset[0] = i; ofset[1] = j;
+                        return ofset;
+                    }
 
                         //MapService mapService = new MapService();
                         //Console.WriteLine("");
                         ///Console.WriteLine("буква " + Letter);
                         //Console.WriteLine("");
                         //mapService.PrintMatrix(arraySearch, arraySearch.GetLength(0), arraySearch.GetLength(1));
-
-
-                    }
+                }
             }
 
-           return false;
+           return ofset;
       
         }
         public bool[,] ConvertListInArray(List<List<bool>> matr)
@@ -143,7 +147,7 @@ namespace Kampus.WordSearcher
             return letterbool;
         }
         //находит букву
-        private static string FindComparisonLetter(bool[,] masSearch, List<bool[,]> abc)
+        public string FindComparisonLetter(bool[,] masSearch, List<bool[,]> abc)
         {
             string letter = "";
             int numLiter = 0;

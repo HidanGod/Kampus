@@ -76,10 +76,10 @@ namespace Kampus.WordSearcher
             //  Console.WriteLine($"{FirstName} {LastName}");
             return bb;
         }
-        public void СreateMapFile(string path, int[,] map, int iMap,int jMap)
+        public void СreateMapFile(string path, int[,] map)
         {
 
-            List<string> MasText = MatrInText(map, iMap, jMap);
+            List<string> MasText = MatrInText(map, map.GetLength(0), map.GetLength(1));
             foreach (string x in MasText)
                 {
                     File.AppendAllText(path, x + Environment.NewLine);

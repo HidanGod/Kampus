@@ -37,10 +37,24 @@ namespace Kampus.WordSearcher
             Helper helper = new Helper();
             helper= clientHttp.Start(url).Result;
             helper.ClientHttp = clientHttp;
-            go go1 = new go();
-            go1.Go(helper);
-            MapService search = new MapService();
-           // search.RunAsync();
+            StartPosition startPosition = new StartPosition();
+            startPosition.Run(helper);
+            startPosition.SeatchStartPosition();
+
+            //Matrix startMap = new Matrix();
+            //startPosition.GetFirstPartLeter(startMap, BasePatch.start);
+            //for (int i = 0; i < 13; i++)
+            //{
+            //    clientHttp.SendRequest(BasePatch.left);
+            //}
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    clientHttp.SendRequest(BasePatch.down);
+            //}
+            //startPosition.GetFirstPartLeter(startMap, BasePatch.down);
+
+            MapService2 search = new MapService2();
+            //search.Run(helper);
             
             //List<bool[,]> bb = new List<bool[,]>();
 

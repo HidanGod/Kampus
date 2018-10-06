@@ -53,6 +53,7 @@
     <Compile Include="ClientHttp.cs" />
     <Compile Include="AlphabetService.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="MapService2.cs" />
     <Compile Include="StartPosition.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="BasePatch.cs" />
