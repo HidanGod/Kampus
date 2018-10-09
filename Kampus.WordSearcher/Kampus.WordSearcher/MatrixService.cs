@@ -12,7 +12,6 @@ namespace Kampus.WordSearcher
         Helper helpClass = new Helper();
         private static bool[,] MakeArray(bool[,] matr, int matrI, int matrJ,int matrIStart, int matrJStart)
         {
-
             bool[,] masResult = new bool[matrI, matrJ];
             if (matr.GetLength(0) < matrIStart + matrI && matr.GetLength(1) < matrJStart + matrJ)
                 for (int i = 0; i < matrI; i++)
@@ -20,46 +19,35 @@ namespace Kampus.WordSearcher
                     for (int j = 0; j < matrJ; j++)
                     {
                         masResult[i, j] = matr[matrIStart + i, matrJStart + j];
-
                     }
                 }
-
             return masResult;
         }
 
         //получает матрицу из строки
         public List<List<bool>> TakeMatr(string text, int i, int j)
         {
-           // Matr matr = new Matr();
             List<List<bool>> matr = new List<List<bool>>();
-           
             int num = 0;
             for (int i1 = 0; i1 < i; i1++)
             {
                 matr.Add(new List<bool>());
                 for (int j1 = 0; j1 <j; j1++)
                 {
-                   
                     if (text[num].ToString() == "1") matr[i1].Add(true);
                     else matr[i1].Add(false);
                     num++;
                 }
             }
-           // matr.matr = matrStart;
-           // PrintMatrix(matr);
-           // Console.WriteLine("mmm");
             return matr;
         }
         //добавляет строку к матрице вниз 
         public List<List<bool>> AddMatrDown(List<List<bool>> matrFirst, List<List<bool>> matrSecond,int k)
         {
-
             for (int i = matrSecond.Count - k; i < matrSecond.Count; i++)
             {
                 matrFirst.Add(matrSecond[i]);
-
             }
-
             return matrFirst;
         }
         //добавляет строку к матрице вправо  
@@ -68,43 +56,31 @@ namespace Kampus.WordSearcher
             int j = startJ;
             for (int i = matrSecond.Count - k; i < matrSecond.Count; i++)
             {
-               if(iRow!=0 &&  patch==BasePatch.left)
-                matrSecond[i].RemoveRange(matrSecond[i].Count - iRow, iRow); 
-               
+               if(iRow!=0 &&  patch==BasePatch.Left)
+                matrSecond[i].RemoveRange(matrSecond[i].Count - iRow, iRow);               
                 foreach (bool b in matrFirst[j])
                 {
                     matrSecond[i].Add(b);
                 }
                 matrFirst[j] = matrSecond[i];
                 j++;
-
-
-
             }
-            
-
             return matrFirst;
         }
         //добавляет строку к матрице вправо  
         public List<List<bool>> AddMatrRight(List<List<bool>> matrFirst, List<List<bool>> matrSecond, int k, int startJ,int iRow, string patch)
         {
             int j = startJ;
-           
-                foreach (List<bool> c in matrSecond)
-                {
-                if (iRow != 0 && patch == BasePatch.right)
+            foreach (List<bool> c in matrSecond)
+            {
+                if (iRow != 0 && patch == BasePatch.Right)
                    c.RemoveRange(0, iRow);
                 foreach (bool b in c)
-                    {
-                        matrFirst[j].Add(b);
-                    }
-                      j++;
+                {
+                    matrFirst[j].Add(b);
+                }
+                j++;
             }
-               // matrFirst[j] = matrSecond[i];
-              
-
-
-
             return matrFirst;
         }
 
@@ -116,6 +92,7 @@ namespace Kampus.WordSearcher
             if (sum < 15) return false;
             else return true;
         }
+        //считает сумму матрицы
         public int emptinessSum(List<List<bool>> matr)
         {
             int sum = 0;
@@ -127,16 +104,9 @@ namespace Kampus.WordSearcher
 
                 }
             }
-            // Console.Write(sum);
-
             return sum;
         }
-        //проверяет есть ли в матрице буквы
-        public bool occurrence(List<List<bool>> matr)
-        {
-            return true;
-        }
-            //выводит на экран матрицу из листов
+        //выводит на экран матрицу из листов
         public void PrintMatrix(List<List<bool>> matr)
         {
             Console.WriteLine("");
@@ -160,21 +130,16 @@ namespace Kampus.WordSearcher
                 Console.WriteLine("");
                 for (int j = 0; j < matr.GetLength(1); j++)
                 {
-
                     if (matr[i, j].ToString() == "False")
                     {
-
                         Console.Write("0");
                     }
                     else
                     {
-
                         Console.Write("x");
                     }
                 }
-
             }
-
         }
         //получает матрицу из строки массив
         public bool[,] TakeMatrArray(string text, bool[,] matr)
@@ -204,7 +169,6 @@ namespace Kampus.WordSearcher
 
             }
             return matr;
-
         }
         //копирует видимую область в шаблон буквы
         public bool[,] CopyArrayFull(bool[,] letter, bool[,] matr,int k)
@@ -224,40 +188,33 @@ namespace Kampus.WordSearcher
             }
             return letter;
         }
-
         //копирует видимую область в шаблон буквы вниз 
         public bool[,] AddArrayDown(bool[,] letter, bool[,] matr, int x)
         {
-
-           
-                for (int j = 0; j < letter.GetLength(1); j++)
-                {
-                    letter[x, j] = matr[matr.GetLength(0)-1, j];
-                }
-           
+            for (int j = 0; j < letter.GetLength(1); j++)
+            {
+                letter[x, j] = matr[matr.GetLength(0)-1, j];
+            }
             return letter;
         }
         //копирует видимую область в шаблон буквы вверх
         public bool[,] AddArrayUp(bool[,] letter, bool[,] matr, int x)
         {
-
-
             for (int j = 0; j < letter.GetLength(1); j++)
             {
                 letter[x, j] = matr[0, j];
             }
-
             return letter;
         }
+       //записывает в файл масив строк
         public void СreateMapFile(string path, List<List<bool>> matr)
         {
             string str = "";
-          
             foreach (List<bool> x in matr)
             {
                 foreach (bool c in x)
                 {
-                    if(c==true)
+                    if (c==true)
                         str = str + "x";
                     else
                         str = str + "0";
@@ -265,8 +222,14 @@ namespace Kampus.WordSearcher
                File.AppendAllText(path, str + Environment.NewLine);
                str = "";
             }
+        }
 
-
+        // оставляет в строке только цифры
+        public string StringIsString(string text)
+        {
+            int[] intMatch = text.Where(Char.IsDigit).Select(x => int.Parse(x.ToString())).ToArray();
+            text = string.Join("", intMatch);
+            return text;
         }
     }
 }

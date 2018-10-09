@@ -8,14 +8,14 @@ namespace Kampus.WordSearcher
 {
     public static class BasePatch
     {
-        public const string start = "/task/game/start";
-        public const string stats = "/task/game/stats";
-        public const string right = "/task/move/right";
-        public const string left = "/task/move/left";
-        public const string up = "/task/move/up";
-        public const string down = "/task/move/down";
-        public const string words = "/task/words";
-        public const string finish = "/task/game/finish";
+        public const string Start = "/task/game/start";
+        public const string Stats = "/task/game/stats";
+        public const string Right = "/task/move/right";
+        public const string Left = "/task/move/left";
+        public const string Up = "/task/move/up";
+        public const string Down = "/task/move/down";
+        public const string Words = "/task/words";
+        public const string Finish = "/task/game/finish";
   
     }
 }

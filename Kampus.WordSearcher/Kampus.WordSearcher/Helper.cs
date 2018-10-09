@@ -15,17 +15,9 @@ namespace Kampus.WordSearcher
 {
     class Helper
     {
-
-        private HttpClient client;
         public HttpClient Client { get; set; }
-
-        private bool[,] map;
-        public bool[,] Map { get; set; }
-
-        private ClientHttp clientHttp;
+     
         public ClientHttp ClientHttp { get; set; }
-
-        private List<String> listWord;
         public List<String> ListWord { get; set; }
     }
 }

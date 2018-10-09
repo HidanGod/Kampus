@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Kampus.WordSearcher
@@ -21,52 +22,32 @@ namespace Kampus.WordSearcher
 
         private static void Main(string[] args)
         {
-
+         
+          
             string url = "http://Intern-test.skbkontur.ru:80";
-            // string page1 = "/task/game/stats";
-            // string page2 = "/task/game/start";
-            // string page3 = "/task/move/down";
-            //  string token = "b804a143-fa76-43d2-8888-bc5a7f094b57";
+            string tokenGame = "b804a143-fa76-43d2-8888-bc5a7f094b57";
+           // url = args[0];
+           // tokenGame = args[1];
+            CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+            CancellationToken token = cancelTokenSource.Token;
+            new Task(() =>
+            {
+                Thread.Sleep(300000);
+                Console.WriteLine("Карта не считана до конца, поиск завершен досрочно");
+                cancelTokenSource.Cancel();
+            }).Start();
 
-            // ClientHttp clientHttp = new ClientHttp();
-            // clientHttp.Start(url);
-
-            //MapElemant tom = map[0,0];
-            // Console.WriteLine(tom?.mapElemant);
             ClientHttp clientHttp = new ClientHttp();
+            clientHttp.client= new HttpClient(); 
             Helper helper = new Helper();
-            helper= clientHttp.Start(url).Result;
+            helper= clientHttp.Start(url, tokenGame).Result;
             helper.ClientHttp = clientHttp;
             helper.ListWord = new List<string>();
-            MapService startPosition = new MapService();
-            startPosition.Run(helper);
-            startPosition.SeatchStartPosition();
+            MapService mapService = new MapService();
+            mapService.Run(helper);
+            mapService.SeatchStartPosition(token);
 
-            //Matrix startMap = new Matrix();
-            //startPosition.GetFirstPartLeter(startMap, BasePatch.start);
-            //for (int i = 0; i < 13; i++)
-            //{
-            //    clientHttp.SendRequest(BasePatch.left);
-            //}
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    clientHttp.SendRequest(BasePatch.down);
-            //}
-            //startPosition.GetFirstPartLeter(startMap, BasePatch.down);
-
-            //MapService2 search = new MapService2();
-            //search.Run(helper);
-            
-            //List<bool[,]> bb = new List<bool[,]>();
-
-            //string currDir = Environment.CurrentDirectory.ToString()+ "/abc.txt";
-
-            //LetterCreater search1 = new LetterCreater();
-            //bb = search1.Сreate(currDir,7,7);
-            //WordSearch search2 = new WordSearch();  
-            //List<string> Search = new List<string>();
-            //int[,] map = new int[100,100];
-            //Search =search2.Search(map,bb);
+  
             Console.Read();
         }
       

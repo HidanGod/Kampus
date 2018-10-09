@@ -8,10 +8,10 @@ namespace Kampus.WordSearcher
 {
     public static class BaseIJ
     {
-            public const int areaI = 5;
-            public const int areaJ = 11;
-            public const int templateI = 7;
-            public const int templateJ = 7;
+            public const int AreaI = 5;
+            public const int AreaJ = 11;
+            public const int TemplateI = 7;
+            public const int TemplateJ = 7;
 
 
     }
