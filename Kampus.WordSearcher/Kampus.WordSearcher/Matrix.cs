@@ -8,8 +8,9 @@ namespace Kampus.WordSearcher
 {
     class Matrix
     {
-        public int iMatr { get; set; }
-        public int jMatr { get; set; }
-        public List<List<bool>> matr { set; get; }
+        public int iMatrix { get; set; }
+        public int jMatrix { get; set; }
+        public List<List<bool>> matrix { set; get; }
+
     }
 }

@@ -18,13 +18,13 @@ namespace Kampus.WordSearcher
         //нахождение шаблонов букв из документа
         // принимает путь, количестко букв, размеры матрицы в которую они вписаны
 
-        public List<bool[,]> Сreate(string path,int imart, int jmatr)
+        public List<bool[,]> Сreate(int imart, int jmatr)
         {
             List<bool[,]> bb = new List<bool[,]>();
 
 
             //path = @"C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Debug\abc.txt";
-            using (StreamReader read = new StreamReader(path, Encoding.Default))//string path - путь к файлу
+            using (StreamReader read = new StreamReader(Environment.CurrentDirectory.ToString() + "/Resources/abc.txt", Encoding.Default))//string path - путь к файлу
                 while (!read.EndOfStream)
                 {
 

@@ -37,7 +37,8 @@ namespace Kampus.WordSearcher
             Helper helper = new Helper();
             helper= clientHttp.Start(url).Result;
             helper.ClientHttp = clientHttp;
-            StartPosition startPosition = new StartPosition();
+            helper.ListWord = new List<string>();
+            MapService startPosition = new MapService();
             startPosition.Run(helper);
             startPosition.SeatchStartPosition();
 
@@ -53,7 +54,7 @@ namespace Kampus.WordSearcher
             //}
             //startPosition.GetFirstPartLeter(startMap, BasePatch.down);
 
-            MapService2 search = new MapService2();
+            //MapService2 search = new MapService2();
             //search.Run(helper);
             
             //List<bool[,]> bb = new List<bool[,]>();

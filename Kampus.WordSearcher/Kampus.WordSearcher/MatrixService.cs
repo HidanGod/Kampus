@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kampus.WordSearcher
 {
-    class MatrService
+    class MatrixService
     {
         Helper helpClass = new Helper();
         private static bool[,] MakeArray(bool[,] matr, int matrI, int matrJ,int matrIStart, int matrJStart)
@@ -63,13 +63,15 @@ namespace Kampus.WordSearcher
             return matrFirst;
         }
         //добавляет строку к матрице вправо  
-        public List<List<bool>> AddMatrLeft(List<List<bool>> matrFirst, List<List<bool>> matrSecond, int k,int startJ)
+        public List<List<bool>> AddMatrLeft(List<List<bool>> matrFirst, List<List<bool>> matrSecond, int k,int startJ,int iRow,string patch)
         {
             int j = startJ;
             for (int i = matrSecond.Count - k; i < matrSecond.Count; i++)
             {
-                List<bool> c1 = matrFirst[j];
-                foreach (bool b in c1)
+               if(iRow!=0 &&  patch==BasePatch.left)
+                matrSecond[i].RemoveRange(matrSecond[i].Count - iRow, iRow); 
+               
+                foreach (bool b in matrFirst[j])
                 {
                     matrSecond[i].Add(b);
                 }
@@ -84,13 +86,15 @@ namespace Kampus.WordSearcher
             return matrFirst;
         }
         //добавляет строку к матрице вправо  
-        public List<List<bool>> AddMatrRight(List<List<bool>> matrFirst, List<List<bool>> matrSecond, int k, int startJ)
+        public List<List<bool>> AddMatrRight(List<List<bool>> matrFirst, List<List<bool>> matrSecond, int k, int startJ,int iRow, string patch)
         {
             int j = startJ;
            
                 foreach (List<bool> c in matrSecond)
                 {
-                    foreach (bool b in c)
+                if (iRow != 0 && patch == BasePatch.right)
+                   c.RemoveRange(0, iRow);
+                foreach (bool b in c)
                     {
                         matrFirst[j].Add(b);
                     }

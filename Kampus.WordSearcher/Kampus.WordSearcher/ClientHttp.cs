@@ -49,10 +49,16 @@ namespace Kampus.WordSearcher
             string json = "";
             if (Patch == BasePatch.words)
             {
-                var orderedwords = from i in helpClass.ListWord
+                var ListWord = helpClass.ListWord.Distinct();
+                var orderedwords = from i in ListWord
                                    orderby i.Length
                                    select i;
                 json = JsonConvert.SerializeObject(orderedwords);
+                Console.WriteLine("");
+                Console.WriteLine("Найденые слова");
+                foreach (string x in orderedwords) Console.WriteLine(x);
+
+
             }
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(Patch, content).Result;

@@ -15,8 +15,15 @@ namespace Kampus.WordSearcher
 {
     class WordService
     {
+        AlphabetService alphabetService = new AlphabetService();
+        Helper helpClass { get; set; }
+        bool[,] map { get; set; }
+        List<bool[,]> abc { get; set; }
+        public void start()
+        {
+          abc = alphabetService.Сreate(BaseIJ.templateI, BaseIJ.templateJ);
 
-
+        }
         public int[] SeatchWord(List<List<bool>> matr)
         {
             int[] ofset = new int[2];
@@ -24,15 +31,13 @@ namespace Kampus.WordSearcher
             bool[,] array = ConvertListInArray(matr);
             bool[,] arraySearch = new bool[BaseIJ.templateI, BaseIJ.templateJ];
             string Letter = "";
-            AlphabetService alphabetService = new AlphabetService();
-            List<bool[,]> alphabet = alphabetService.Сreate(BasePatch.patchAlphabet,BaseIJ.templateI,BaseIJ.templateJ);
 
             for (int i = 0; i <= array.GetLength(0) - BaseIJ.templateI; i++)
             {
                 for (int j = 0; j <= array.GetLength(1) - BaseIJ.templateJ; j++)
                 {
                     arraySearch = MakeArray(array, i, j, arraySearch.GetLength(0), arraySearch.GetLength(1));
-                    Letter = FindComparisonLetter(arraySearch, alphabet);
+                    Letter = FindComparisonLetter(arraySearch);
                     if (Letter != "")
                     {
                         //Console.WriteLine(i+" j="+j);
@@ -77,32 +82,37 @@ namespace Kampus.WordSearcher
 
 
 
-        public List<string> Search(bool[,] map, List<bool[,]> abc,int mapi, int mapj,int matri,int matrj)
+        public List<string> Search(bool[,] newMap, Helper helperes)
         {
+            helpClass = helperes;
+            map = newMap;
             MapService search2 = new MapService();
-           // string currDir = Environment.CurrentDirectory.ToString() + "/map.txt";
-          //  map=ReadMap(currDir,100,100);
-           //  search2.seematr(map, 100, 100);
-
+            // string currDir = Environment.CurrentDirectory.ToString() + "/map.txt";
+            //  map=ReadMap(currDir,100,100);
+            //  search2.seematr(map, 100, 100);
+         
+            List<bool[,]> abc = alphabetService.Сreate(BaseIJ.templateI, BaseIJ.templateJ);
             List<string> masWorld = new List<string>();
             string World = "";
             string Letter = "";
-            bool[,] masSearch = new bool[matri, matrj];
-            for (int iMap = 0; iMap <= mapi- matri; iMap++)
+            bool[,] masSearch = new bool[BaseIJ.templateI, BaseIJ.templateJ];
+            for (int iMap = 0; iMap <= map.GetLength(0) - BaseIJ.templateI; iMap++)
             {
-                for (int jMap = 0; jMap <= mapj - matrj; jMap++)
+                for (int jMap = 0; jMap <= map.GetLength(1) - BaseIJ.templateJ; jMap++)
                 {
-                    masSearch=MakeArray(map, iMap, jMap, matri, matrj);
-                    Letter=FindComparisonLetter(masSearch,abc);
+                    masSearch=MakeArray(map, iMap, jMap, BaseIJ.templateI, BaseIJ.templateJ);
+                    Letter=FindComparisonLetter(masSearch);
                    // Console.Write(FindComparisonLetter(masSearch, abc));
-                    if (Letter != "") {
-                        if (FindComparisonWord(FindComparisonLetter(MakeArray(map, iMap, jMap+ matrj+1, matri, matrj), abc)))
+                    if (Letter != "")
+                    {
+                        if (FindComparisonWord(iMap, jMap))
                         {
                            World = World + Letter;
                         }
                     else if (World.Length > 0)
                     {
                             World = World + Letter;
+                            //helpClass.ListWord.Add(World);
                             masWorld.Add(World);
                             World = "";
                     }
@@ -111,11 +121,11 @@ namespace Kampus.WordSearcher
 
 
             }
-            Console.WriteLine("");
-            Console.WriteLine("слова");
-            foreach (string x in masWorld) Console.WriteLine(x);
+            //Console.WriteLine("");
+            //Console.WriteLine("слова");
+            //foreach (string x in helpClass.ListWord) Console.WriteLine(x);
 
-            Console.WriteLine("поиск завершен");
+            //Console.WriteLine("поиск завершен");
 
 
 
@@ -123,16 +133,16 @@ namespace Kampus.WordSearcher
 
         }
         //берет матрицу 7х7 из карты для дальнейшей проверки
-        private static bool[,] MakeArray(bool[,] matr, int iMatrStart, int jMatrStart, int i, int j)
+        private static bool[,] MakeArray(bool[,] matr, int iMatrixStart, int jMatrStart, int i, int j)
         {
 
             bool[,] masForSearch = new bool[i, j];
-            if(iMatrStart< matr.GetLength(0) - i+1 && jMatrStart< matr.GetLength(1) - j+1)
+            if(iMatrixStart< matr.GetLength(0) - i+1 && jMatrStart< matr.GetLength(1) - j+1)
             for (int iSearch = 0; iSearch < i; iSearch++)
             {
                 for (int jSearch = 0; jSearch < j; jSearch++)
                 {
-                    masForSearch[iSearch, jSearch] = matr[iMatrStart + iSearch, jMatrStart + jSearch];
+                    masForSearch[iSearch, jSearch] = matr[iMatrixStart + iSearch, jMatrStart + jSearch];
 
                 }
             }
@@ -140,15 +150,18 @@ namespace Kampus.WordSearcher
             return masForSearch;
         }
         //проверяет если еще буква в этом слове
-        private static bool FindComparisonWord(string letter)
+        private  bool FindComparisonWord(int iMap, int jMap)
         {
-            bool letterbool = false;
-            if(letter!="") letterbool = true;
-            return letterbool;
+            bool[,] masSearch = MakeArray(map, iMap, jMap + BaseIJ.templateJ + 1, BaseIJ.templateI, BaseIJ.templateJ);
+            string letter=FindComparisonLetter(masSearch);
+          
+            if(letter!="") return true;
+            return false;
         }
         //находит букву
-        public string FindComparisonLetter(bool[,] masSearch, List<bool[,]> abc)
+        public string FindComparisonLetter(bool[,] masSearch)
         {
+         
             string letter = "";
             int numLiter = 0;
             foreach (bool[,] mas in abc)
