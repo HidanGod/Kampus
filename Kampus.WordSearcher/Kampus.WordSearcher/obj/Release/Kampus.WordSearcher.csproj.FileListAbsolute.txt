@@ -1,0 +1,14 @@
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Release\Resources\abc.txt
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Release\Resources\map.txt
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Release\Kampus.WordSearcher.exe.config
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Release\Kampus.WordSearcher.exe
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Release\Kampus.WordSearcher.pdb
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Release\Newtonsoft.Json.dll
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Release\System.Net.Http.Formatting.dll
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Release\Newtonsoft.Json.xml
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\bin\Release\System.Net.Http.Formatting.xml
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\obj\Release\Kampus.WordSearcher.csprojResolveAssemblyReference.cache
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\obj\Release\Kampus.WordSearcher.csproj.CoreCompileInputs.cache
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\obj\Release\Kampus.WordSearcher.csproj.CopyComplete
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\obj\Release\Kampus.WordSearcher.exe
+C:\Users\HidiMeedi\source\repos\Kampus.WordSearcher\Kampus.WordSearcher\obj\Release\Kampus.WordSearcher.pdb

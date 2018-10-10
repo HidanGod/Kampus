@@ -28,6 +28,7 @@ namespace Kampus.WordSearcher
             if (args.Length != 2) Console.WriteLine("запустите приложения с аргументами Url и token");
             else
             {
+                Console.WriteLine("Start");
                 string url = args[0];
                 string tokenGame = args[1];
                 CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
@@ -35,6 +36,7 @@ namespace Kampus.WordSearcher
                 new Task(() =>
                 {
                     Thread.Sleep(TimeSpan.FromSeconds(280));
+                    Console.WriteLine("Запущен поиск слов");
                     cancelTokenSource.Cancel();
                 }).Start();
                 ClientHttp clientHttp = new ClientHttp();

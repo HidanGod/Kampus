@@ -29,8 +29,8 @@ namespace Kampus.WordSearcher
             helpClass.ClientHttp.SendRequest(BasePatch.Words);
             Console.WriteLine("Игровая статистика:");
             helpClass.ClientHttp.GetAsync(BasePatch.Stats);
-            Console.WriteLine(helpClass.ClientHttp.SendRequest(BasePatch.Finish).Result.ToString());
-        
+            helpClass.ClientHttp.SendRequest(BasePatch.Finish).Result.ToString();
+            Console.WriteLine("Finish");
         }
         public Matrix GetMap(Matrix map, CancellationToken token)
         {
@@ -83,7 +83,7 @@ namespace Kampus.WordSearcher
                     ofsetY = ofsetY + 5;
                 }
             }
-            matrService.СreateMapFile(Environment.CurrentDirectory.ToString() + "/Resources/map.txt", map.MatrixMase);
+            //matrService.СreateMapFile(Environment.CurrentDirectory.ToString() + "/Resources/map.txt", map.MatrixMase);
             return map;
         }
         public string FirstWordDown(Matrix map,int indexX, int Length)
