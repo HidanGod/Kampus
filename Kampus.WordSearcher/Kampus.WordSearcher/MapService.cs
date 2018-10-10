@@ -18,32 +18,17 @@ namespace Kampus.WordSearcher
         }
         public async Task SeatchStartPosition(CancellationToken token)
         {
-          
-          
-
             wordService.start();
             Matrix startMap = new Matrix();
-            Console.WriteLine("Начат поиск первой буквы на карте");
             SeatchFirstLeter();
-            Console.WriteLine("Первая буква на карте найдена");
-            Console.WriteLine("Начат поиск начала первого слова");
             SeatchFirstLeterWord();          
-            Console.WriteLine("Начало первого слова найдено");
-            Console.WriteLine("Начат поиск повторения первого слова по горизонтали");
             startMap =SeatchFirstWord();
-            Console.WriteLine("Повторение первого слова по горизонтали найдено");
-            Console.WriteLine("Начато считывание всей карты");
             startMap=GetMap(startMap, token);
-            Console.WriteLine("Вся карта считана");
-            helpClass.ClientHttp.GetAsync(BasePatch.Stats);
-            bool[,] array = wordService.ConvertListInArray(startMap.matrix);
-            //List<string> listWord = new List<string>();
-            Console.WriteLine("Начат поиск слов");
+            bool[,] array = wordService.ConvertListInArray(startMap.MatrixMase);
             helpClass.ListWord = wordService.Search(array, helpClass);
-            Console.WriteLine("Все слова найдены");
             helpClass.ClientHttp.SendRequest(BasePatch.Words);
+            Console.WriteLine("Игровая статистика:");
             helpClass.ClientHttp.GetAsync(BasePatch.Stats);
-            Console.WriteLine("Набрано очков");
             Console.WriteLine(helpClass.ClientHttp.SendRequest(BasePatch.Finish).Result.ToString());
         
         }
@@ -56,19 +41,19 @@ namespace Kampus.WordSearcher
             bool[,] baseLeter = new bool[letterSizeX, letterSizeY];
             string word = "";
             string firstWord = helpClass.ListWord[0];
-            int k = (int)(map.matrix[0].Count/ 11);
+            int k = (int)(map.MatrixMase[0].Count/ 11);
             k = k * 11;
-            k = map.matrix[0].Count - k;
+            k = map.MatrixMase[0].Count - k;
          while (true)
             {
                 if (token.IsCancellationRequested)break;
 
-                if (indexX + letterSizeX < map.matrix.Count)
+                if (indexX + letterSizeX < map.MatrixMase.Count)
                 {
                     baseLeter = GiveLeterBase(map,0, indexX, letterSizeX, letterSizeY);
                     if (WordExist(baseLeter))
                     {
-                        if (WordTake(baseLeter) == firstWord[0].ToString())
+                        if (wordService.FindComparisonLetter(baseLeter) == firstWord[0].ToString())
                         {
                             if (FirstWordDown(map, indexX, (firstWord.Length + 1) * 8) == firstWord) break;
                         }
@@ -81,7 +66,7 @@ namespace Kampus.WordSearcher
                     if (token.IsCancellationRequested) break;
                     map = ReadMap(map, 5, 5, ofsetY, BasePatch.Down, "down");
                     //влево
-                    for (int i = 0; i < (int)(((map.matrix[0].Count) - 11) / 11); i++)
+                    for (int i = 0; i < (int)(((map.MatrixMase[0].Count) - 11) / 11); i++)
                     {
                         map = ReadMap(map, 11, 5, ofsetY, BasePatch.Left, "left");
                     }
@@ -90,7 +75,7 @@ namespace Kampus.WordSearcher
                     if (token.IsCancellationRequested) break;
                     //вправо
                     map = ReadMap(map, 5, 5, ofsetY, BasePatch.Down, "down");
-                    for (int i = 0; i < (int)(((map.matrix[0].Count) - 11) / 11); i++)
+                    for (int i = 0; i < (int)(((map.MatrixMase[0].Count) - 11) / 11); i++)
                     {
                         map = ReadMap(map, 11, 5, ofsetY, BasePatch.Right, "right");
                     }
@@ -98,7 +83,7 @@ namespace Kampus.WordSearcher
                     ofsetY = ofsetY + 5;
                 }
             }
-            matrService.СreateMapFile(Environment.CurrentDirectory.ToString() + "/Resources/map.txt", map.matrix);
+            matrService.СreateMapFile(Environment.CurrentDirectory.ToString() + "/Resources/map.txt", map.MatrixMase);
             return map;
         }
         public string FirstWordDown(Matrix map,int indexX, int Length)
@@ -106,7 +91,7 @@ namespace Kampus.WordSearcher
             List<List<bool>> FistWordList = new List<List<bool>>();
             for (int i = 0; i < 7; i++)
             {
-                FistWordList.Add(map.matrix[indexX + i]);
+                FistWordList.Add(map.MatrixMase[indexX + i]);
                 FistWordList[i].RemoveRange(FistWordList[i].Count - Length, Length);
             }
             bool[,] FistWordArray = wordService.ConvertListInArray(FistWordList);
@@ -127,12 +112,12 @@ namespace Kampus.WordSearcher
             firstLine = ReadMap(firstLine, 5, 5, 0, BasePatch.Down, "down");
             while (true)
             {
-                if (indexY + letterSizeY + 1 < firstLine.matrix[0].Count)
+                if (indexY + letterSizeY + 1 < firstLine.MatrixMase[0].Count)
                 {
                     baseLeter = GiveLeterBase(firstLine, indexY,0, letterSizeX, letterSizeY);
                     if (WordExist(baseLeter))
                     {
-                        word = word + WordTake(baseLeter);
+                        word = word + wordService.FindComparisonLetter(baseLeter);
                         indexY = indexY + letterSizeY+1;
                     }
                     else
@@ -142,9 +127,9 @@ namespace Kampus.WordSearcher
                                 if (word == helpClass.ListWord[0])
                                 {
                                     int x = 10;
-                                    int y = word.Length * 8 + (firstLine.matrix[0].Count - indexY);
+                                    int y = word.Length * 8 + (firstLine.MatrixMase[0].Count - indexY);
                                     Navigation(y, 0);
-                                    DeletWord(firstLine.matrix,x, firstLine.matrix[0].Count-y, y);
+                                    DeletWord(firstLine.MatrixMase,x, firstLine.MatrixMase[0].Count-y, y);
                                     break;
                                 }
                                 else
@@ -187,7 +172,7 @@ namespace Kampus.WordSearcher
             bool[,] baseLeter = new bool[letterSizeX, letterSizeY];
             for (int i = 0; i < letterSizeX; i++)
             {
-                List<bool> lineList = firstLine.matrix[i+ indexX];
+                List<bool> lineList = firstLine.MatrixMase[i+ indexX];
                 for (int j = 0; j < letterSizeY; j++)
                 {
                     baseLeter[i, j] = lineList[j + indexY];
@@ -243,7 +228,7 @@ namespace Kampus.WordSearcher
                         y = y - 5;
 
                     }
-                if (LeterExist(startMap.matrix) == true) break;
+                if (LeterExist(startMap.MatrixMase) == true) break;
                 //влево
                 startMap = ReadMap(startMap, 11, 5, 0, BasePatch.Left, "left");
                     //вниз
@@ -254,7 +239,7 @@ namespace Kampus.WordSearcher
                         y = y + 5;
                     }
                 //вниз
-                if (LeterExist(startMap.matrix) == true) break;
+                if (LeterExist(startMap.MatrixMase) == true) break;
                 startMap = ReadMap(startMap, 5, 5, x, BasePatch.Down, "down");
                 //вправо
                 x = x + 5;
@@ -263,13 +248,13 @@ namespace Kampus.WordSearcher
                         startMap = ReadMap(startMap, 11, 5, x, BasePatch.Right,"right");
                     }
                     ofsetI = ofsetI + 2;
-                if (LeterExist(startMap.matrix) == true) break;
+                if (LeterExist(startMap.MatrixMase) == true) break;
             }
-            int[] ofsetxy = wordService.SeatchWord(startMap.matrix);
-            x = startMap.matrix[0].Count - 11- startMap.iMatrix- ofsetxy[1];
-            y = startMap.jMatrix - ofsetxy[0];
+            int[] ofsetxy = wordService.SeatchWord(startMap.MatrixMase);
+            x = startMap.MatrixMase[0].Count - 11- startMap.IMatrix- ofsetxy[1];
+            y = startMap.JMatrix - ofsetxy[0];
             Navigation(x, y);
-            startMap.matrix.Clear();
+            startMap.MatrixMase.Clear();
             helpClass.ClientHttp.SendRequest(BasePatch.Right);
             GetFirstPartLeter(startMap, BasePatch.Left);
         }
@@ -283,19 +268,11 @@ namespace Kampus.WordSearcher
         //проверяет наличие слов на карте
         public bool WordExist(bool[,] startMap)
         {
-            string leter = WordTake(startMap);
+            string leter = wordService.FindComparisonLetter(startMap);
             if (leter == "") return false;
             return true;
         }
-        //получает букву
-        public string WordTake(bool[,] startMap)
-        {
-            AlphabetService alphabetService = new AlphabetService();
-            List<bool[,]> alphabet = alphabetService.Сreate(BaseIJ.TemplateI, BaseIJ.TemplateJ);
-            string leter = "";
-            leter = wordService.FindComparisonLetter(startMap);
-            return leter;
-        }
+     
         //перемещает указатель на указаные координаты
         public void Navigation(int x, int y)
         {
@@ -314,7 +291,7 @@ namespace Kampus.WordSearcher
       public Matrix GetFirstPartLeter(Matrix startMap,string patch)
       {          
             string str = helpClass.ClientHttp.SendRequest(patch).Result;
-            startMap.matrix = matrService.TakeMatr(str, 5, 11);          
+            startMap.MatrixMase = matrService.TakeMatr(str, 5, 11);          
             return startMap;
       }
        //ищет 1 букву 1 слова
@@ -358,15 +335,15 @@ namespace Kampus.WordSearcher
             switch (direction)
             {
                 case "down":
-                    startMap.matrix = matrService.AddMatrDown(startMap.matrix, matrPart, iRow);
+                    startMap.MatrixMase = matrService.AddMatrDown(startMap.MatrixMase, matrPart, iRow);
                     CalcOfset(startMap, iRow, patch);
                     break;
                 case "left":
-                    startMap.matrix = matrService.AddMatrLeft(startMap.matrix, matrPart, jColumn, StartJ, 11-iRow, patch);
+                    startMap.MatrixMase = matrService.AddMatrLeft(startMap.MatrixMase, matrPart, jColumn, StartJ, 11-iRow, patch);
                     CalcOfset(startMap, iRow, patch);
                     break;
                 case "right":  
-                    startMap.matrix = matrService.AddMatrRight(startMap.matrix, matrPart, jColumn, StartJ, 11-iRow, patch);
+                    startMap.MatrixMase = matrService.AddMatrRight(startMap.MatrixMase, matrPart, jColumn, StartJ, 11-iRow, patch);
                     CalcOfset(startMap, iRow, patch);
                     break;
             }
@@ -378,16 +355,16 @@ namespace Kampus.WordSearcher
             switch (patch)
             {
                 case BasePatch.Up:
-                    startMap.jMatrix = startMap.jMatrix - ofset;
+                    startMap.JMatrix = startMap.JMatrix - ofset;
                     break;
                 case BasePatch.Down:
-                    startMap.jMatrix = startMap.jMatrix + ofset;
+                    startMap.JMatrix = startMap.JMatrix + ofset;
                     break;
                 case BasePatch.Left:
-                    startMap.iMatrix = startMap.iMatrix + ofset;
+                    startMap.IMatrix = startMap.IMatrix + ofset;
                     break;
                 case BasePatch.Right:
-                    startMap.iMatrix = startMap.iMatrix - ofset;
+                    startMap.IMatrix = startMap.IMatrix - ofset;
                     break;
 
             }

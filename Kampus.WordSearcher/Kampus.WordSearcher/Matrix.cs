@@ -4,8 +4,8 @@ namespace Kampus.WordSearcher
 {
     class Matrix
     {
-        public int iMatrix { get; set; }
-        public int jMatrix { get; set; }
-        public List<List<bool>> matrix { set; get; }
+        public int IMatrix { get; set; }
+        public int JMatrix { get; set; }
+        public List<List<bool>> MatrixMase { set; get; }
     }
 }
