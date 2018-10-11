@@ -10,4 +10,7 @@
     <FallbackCulture>ru-RU</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartArguments>http://Intern-test.skbkontur.ru:80 bd3ec6a1-fb82-471f-b35d-78da2acffddd</StartArguments>
+  </PropertyGroup>
 </Project>

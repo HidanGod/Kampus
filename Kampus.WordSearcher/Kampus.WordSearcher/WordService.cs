@@ -94,7 +94,6 @@ namespace Kampus.WordSearcher
                         {
                             World = World + Letter;
                             masWorld.Add(World);
-                            Console.WriteLine("слово " + World);
                             World = "";
                         }
                     }

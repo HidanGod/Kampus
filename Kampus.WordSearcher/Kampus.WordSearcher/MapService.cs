@@ -16,8 +16,9 @@ namespace Kampus.WordSearcher
         {
             helpClass = helperes;
         }
-        public async Task SeatchStartPosition(CancellationToken token)
+        public async Task Seatch(CancellationToken token)
         {
+          
             wordService.start();
             Matrix startMap = new Matrix();
             SeatchFirstLeter();
@@ -44,44 +45,53 @@ namespace Kampus.WordSearcher
             int k = (int)(map.MatrixMase[0].Count/ 11);
             k = k * 11;
             k = map.MatrixMase[0].Count - k;
-         while (true)
+            try
             {
-                if (token.IsCancellationRequested)break;
 
-                if (indexX + letterSizeX < map.MatrixMase.Count)
+                while (true)
                 {
-                    baseLeter = GiveLeterBase(map,0, indexX, letterSizeX, letterSizeY);
-                    if (WordExist(baseLeter))
+                  
+                    if (indexX + letterSizeX < map.MatrixMase.Count)
                     {
-                        if (wordService.FindComparisonLetter(baseLeter) == firstWord[0].ToString())
+                        if (token.IsCancellationRequested) break;
+                        baseLeter = GiveLeterBase(map, 0, indexX, letterSizeX, letterSizeY);
+                        if (WordExist(baseLeter))
                         {
-                            if (FirstWordDown(map, indexX, (firstWord.Length + 1) * 8) == firstWord) break;
+                            if (wordService.FindComparisonLetter(baseLeter) == firstWord[0].ToString())
+                            {
+                                if (FirstWordDown(map, indexX, (firstWord.Length + 1) * 8) == firstWord) break;
+                            }
+                            else indexX = indexX + 5;
                         }
-                        else indexX = indexX + 5;
+                        else indexX = indexX + 1;
                     }
-                    else indexX = indexX + 1;               
-                }
-                else
-                {
-                    if (token.IsCancellationRequested) break;
-                    map = ReadMap(map, 5, 5, ofsetY, BasePatch.Down, "down");
-                    //влево
-                    for (int i = 0; i < (int)(((map.MatrixMase[0].Count) - 11) / 11); i++)
+                    else
                     {
-                        map = ReadMap(map, 11, 5, ofsetY, BasePatch.Left, "left");
+                        if (token.IsCancellationRequested) break;
+                        map = ReadMap(map, 5, 5, ofsetY, BasePatch.Down, "down");
+                        //влево
+                        for (int i = 0; i < (int)(((map.MatrixMase[0].Count) - 11) / 11); i++)
+                        {
+                            map = ReadMap(map, 11, 5, ofsetY, BasePatch.Left, "left");
+                        }
+                        map = ReadMap(map, k, 5, ofsetY, BasePatch.Left, "left");
+                        ofsetY = ofsetY + 5;
+                        if (token.IsCancellationRequested) break;
+                        //вправо
+                        map = ReadMap(map, 5, 5, ofsetY, BasePatch.Down, "down");
+                        for (int i = 0; i < (int)(((map.MatrixMase[0].Count) - 11) / 11); i++)
+                        {
+                            map = ReadMap(map, 11, 5, ofsetY, BasePatch.Right, "right");
+                        }
+                        map = ReadMap(map, k, 5, ofsetY, BasePatch.Right, "right");
+                        ofsetY = ofsetY + 5;
                     }
-                    map = ReadMap(map, k, 5, ofsetY, BasePatch.Left, "left");
-                    ofsetY = ofsetY + 5;
-                    if (token.IsCancellationRequested) break;
-                    //вправо
-                    map = ReadMap(map, 5, 5, ofsetY, BasePatch.Down, "down");
-                    for (int i = 0; i < (int)(((map.MatrixMase[0].Count) - 11) / 11); i++)
-                    {
-                        map = ReadMap(map, 11, 5, ofsetY, BasePatch.Right, "right");
-                    }
-                    map = ReadMap(map, k, 5, ofsetY, BasePatch.Right, "right");
-                    ofsetY = ofsetY + 5;
                 }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+
             }
             //matrService.СreateMapFile(Environment.CurrentDirectory.ToString() + "/Resources/map.txt", map.MatrixMase);
             return map;
@@ -109,50 +119,59 @@ namespace Kampus.WordSearcher
             int letterSizeY = 7;
             bool[,] baseLeter = new bool[letterSizeX, letterSizeY];
             string word = "";
-            firstLine = ReadMap(firstLine, 5, 5, 0, BasePatch.Down, "down");
-            while (true)
+            try
             {
-                if (indexY + letterSizeY + 1 < firstLine.MatrixMase[0].Count)
+                firstLine = ReadMap(firstLine, 5, 5, 0, BasePatch.Down, "down");
+
+                while (true)
                 {
-                    baseLeter = GiveLeterBase(firstLine, indexY,0, letterSizeX, letterSizeY);
-                    if (WordExist(baseLeter))
+                    if (indexY + letterSizeY + 1 < firstLine.MatrixMase[0].Count)
                     {
-                        word = word + wordService.FindComparisonLetter(baseLeter);
-                        indexY = indexY + letterSizeY+1;
-                    }
-                    else
-                    {                      
-                        if (word!="")
-                            if (helpClass.ListWord.Count > 0)
-                                if (word == helpClass.ListWord[0])
-                                {
-                                    int x = 10;
-                                    int y = word.Length * 8 + (firstLine.MatrixMase[0].Count - indexY);
-                                    Navigation(y, 0);
-                                    DeletWord(firstLine.MatrixMase,x, firstLine.MatrixMase[0].Count-y, y);
-                                    break;
-                                }
+                        baseLeter = GiveLeterBase(firstLine, indexY, 0, letterSizeX, letterSizeY);
+                        if (WordExist(baseLeter))
+                        {
+                            word = word + wordService.FindComparisonLetter(baseLeter);
+                            indexY = indexY + letterSizeY + 1;
+                        }
+                        else
+                        {
+                            if (word != "")
+                                if (helpClass.ListWord.Count > 0)
+                                    if (word == helpClass.ListWord[0])
+                                    {
+                                        int x = 10;
+                                        int y = word.Length * 8 + (firstLine.MatrixMase[0].Count - indexY);
+                                        Navigation(y, 0);
+                                        DeletWord(firstLine.MatrixMase, x, firstLine.MatrixMase[0].Count - y, y);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        helpClass.ListWord.Add(word);
+                                        word = "";
+                                    }
                                 else
                                 {
                                     helpClass.ListWord.Add(word);
                                     word = "";
                                 }
-                            else
-                            {
-                                helpClass.ListWord.Add(word);
-                                word = "";
-                            }
-                        indexY = indexY + 1;
-                    } 
-                }
-                else
-                {
-                   firstLine = ReadMap(firstLine, 11, 5, 5, BasePatch.Right, "right");
-                   firstLine = ReadMap(firstLine, 5, 5, 0, BasePatch.Up, "right");
-                   firstLine = ReadMap(firstLine, 11, 5, 0, BasePatch.Right, "right");
-                   firstLine = ReadMap(firstLine, 5, 5, 5, BasePatch.Down, "right");
+                            indexY = indexY + 1;
+                        }
+                    }
+                    else
+                    {
+                        firstLine = ReadMap(firstLine, 11, 5, 5, BasePatch.Right, "right");
+                        firstLine = ReadMap(firstLine, 5, 5, 0, BasePatch.Up, "right");
+                        firstLine = ReadMap(firstLine, 11, 5, 0, BasePatch.Right, "right");
+                        firstLine = ReadMap(firstLine, 5, 5, 5, BasePatch.Down, "right");
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
             return firstLine;
         }
         //удаляет слово из карты

@@ -31,6 +31,7 @@ namespace Kampus.WordSearcher
                 Console.WriteLine("Start");
                 string url = args[0];
                 string tokenGame = args[1];
+
                 CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
                 CancellationToken token = cancelTokenSource.Token;
                 new Task(() =>
@@ -47,7 +48,7 @@ namespace Kampus.WordSearcher
                 helper.ListWord = new List<string>();
                 MapService mapService = new MapService();
                 mapService.Run(helper);
-                mapService.SeatchStartPosition(token);
+                mapService.Seatch(token);
             }
             Console.Read();
         }
